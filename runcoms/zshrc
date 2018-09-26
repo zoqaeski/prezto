@@ -11,3 +11,102 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+alias xevk="xev | sed -ne '/^KeyPress/,/^$/p'"
+
+# Source gpg connection data
+#if $(pgrep -u `whoami` envoy) ; then
+#	source <(envoy -p)
+#fi
+#if $(pgrep -u `whoami` gpg-agent) && [ -f "${HOME}/.gnupg/gpg-agent.env" ]; then
+#	. "${HOME}/.gnupg/gpg-agent.env"
+#	export GPG_AGENT_INFO
+#	export SSH_AUTH_SOCK
+#	export SSH_AGENT_PID
+##elif [ $(pgrep -u `whoami` gnome-keyring) ]; then
+##	true
+##   source <(gnome-keyring-daemon --start --components=gpg,ssh)
+#fi
+
+# Add Keychain support
+eval $(keychain --eval --quiet --agents ssh,gpg)
+
+alias gpg-master='gpg --homedir /mnt/gpg-key-backup/gnupghome'
+
+# Source VTE.sh for better VTE support
+source /etc/profile.d/vte.sh
+
+# Base16 Shell
+BASE16_SHELL=$HOME/.local/share/themes/base16/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+# Alias for runa
+alias open='gio open'
+
+# Alias for arara-git
+alias arara='arara-git'
+
+# FZF conveniences
+# source /usr/share/fzf/completion.zsh
+# source /usr/share/fzf/key-bindings.zsh
+
+# Reload environment
+#bindkey "$key_info[Control]X$key_info[Control]R" "eval $(tmux switch-client \; show-environment -s)"
+#
+
+
+function add-replay-gain () {
+	local curr=$(pwd)
+	echo "Loading albums…"
+	local albums=("${(@f)$(find "${curr}" -type f -iname '*.flac' -exec dirname '{}' \; | sort -u)}")
+	for a in $albums[@] ; do
+		cd "${a}"
+		echo "Adding ReplayGain tags to ${a}"
+		metaflac --add-replay-gain *.flac
+		cd "${curr}"
+	done
+}
+
+# Override texdoc with fzf mode
+alias oldtexdoc='/usr/local/bin/texdoc'
+function texdoc () { 
+  IFS='
+  '
+  local declare files=($(/usr/local/bin/texdoc -l -M "$1" | cut -f3 | fzf --exit-0 --multi))
+  [[ -n "$files" ]] && gio open "${files[@]}"
+  unset IFS
+}
+
+#            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#                    Version 2, December 2004
+#
+# Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+#
+# Everyone is permitted to copy and distribute verbatim or modified
+# copies of this license document, and changing it is allowed as long
+# as the name is changed.
+#
+#            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+#
+#  0. You just DO WHAT THE FUCK YOU WANT TO.
+
+# depends on p7zip (7z command) with rar support
+# should be compatible with bash (tested on zsh)
+# for batch call:
+# find -name '*.cbr' -print -exec zsh -c 'source ~/.zshrc;cbr2cbz "{}"' \;
+
+function cbr2cbz() {
+	TMP="$XDG_RUNTIME_DIR"
+	CBZ=$(basename "$1" .cbr).cbz
+	DN=$(dirname "$1")
+	if [ -f "$DN/$CBZ" ]; then
+		echo "$DN/$CBZ already exists"
+	else
+		echo "Will create $DN/$CBZ"
+		DIR=$(mktemp -d -p "$TMP")
+		7z x "$1" -o"$DIR"
+		# find "$DIR" -type f -print
+		find "$DIR" -type f -print -exec 7z a -tzip "$DN/$CBZ" {} +
+		rm -rf "$DIR"
+	fi
+}
