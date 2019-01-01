@@ -136,7 +136,15 @@ elif [[ "$OSTYPE" == cygwin* ]]; then
   alias pbcopy='tee > /dev/clipboard'
   alias pbpaste='cat /dev/clipboard'
 else
-  alias o='xdg-open'
+
+  # Alias for [x]runa
+  if (( $+commands[xruna] && $+commands[fzf] )); then
+    alias o='xruna'
+    alias open='DMENU_CMD=fzf xruna -t'
+  else
+    alias o='xdg-open'
+    alias open='xdg-open'
+  fi
 
   if (( $+commands[xclip] )); then
     alias pbcopy='xclip -selection clipboard -in'

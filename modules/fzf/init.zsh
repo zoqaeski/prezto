@@ -44,15 +44,19 @@ fi
 # https://github.com/junegunn/fzf/wiki/Examples
 #
 
-# fo [FUZZY PATTERN] - Open the selected files 
-#   - Bypass fuzzy finder if there's only one match (--select-1)
-#   - Exit if there's no match (--exit-0)
+# Modified version where you can press
+#   - CTRL-O to open with `open` command, which gives a list of default
+#   applications
+#   - Return to open with the default system application
+#   - TODO figure out how to add an editor?
 fo() {
-  IFS='
-'
-  local declare files=($(fzf --query="$1" --exit-0 --multi))
-  [[ -n "$files" ]] && open "${files[@]}"
-  unset IFS
+  local out file key
+  IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o))
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+    [ "$key" = ctrl-o ] && open "$file" || o "$file"
+  fi
 }
 
 # cdf - cd into the directory of the selected file
@@ -77,11 +81,16 @@ fdr() {
   cd "$DIR"
 }
 
+# fh - repeat history
+fh() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+
 if (( $+commands[fasd] )); then
   # fcd - fasd change directory: cd into MRU dirs from fasd
   fcd() {
     local dir
-    dir=$(fasd -dlR | fzf) && cd "$dir"
+    dir=$(fasd -dlR | fzf +m --no-sort) && cd "$dir"
   }  
 
   alias j='fcd' 

@@ -39,9 +39,6 @@ source /etc/profile.d/vte.sh
 BASE16_SHELL=$HOME/.local/share/themes/base16/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
-# Alias for runa
-alias open='gio open'
-
 # Alias for arara-git
 alias arara='arara-git'
 
