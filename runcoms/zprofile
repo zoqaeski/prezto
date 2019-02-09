@@ -69,8 +69,9 @@ fi
 #eval $(tmux switch-client \; show-environment -s)
 
 # Other environment variables
+export FZF_DEFAULT_COMMAND='fd . .'
+export FZF_CTRL_T_COMMAND='fd . .'
 export DMENU_CMD='fzf +m'
-
 export AURDEST='/src/makepkg'
 
 # vim: ft=zsh
