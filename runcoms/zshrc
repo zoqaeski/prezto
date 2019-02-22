@@ -64,14 +64,25 @@ function add-replay-gain () {
 }
 
 # Override texdoc with fzf mode
-alias oldtexdoc='/usr/local/bin/texdoc'
-function texdoc () { 
-  IFS='
-  '
-  local declare files=($(/usr/local/bin/texdoc -l -M "$1" | cut -f3 | fzf --exit-0 --multi))
-  [[ -n "$files" ]] && gio open "${files[@]}"
-  unset IFS
-}
+if (( $+commands[fzf] )); then
+  alias oldtexdoc='/usr/local/bin/texdoc'
+  function texdoc () { 
+    IFS='
+    '
+    local declare files=($(/usr/local/bin/texdoc -l -M "$1" | cut -f3 | fzf --exit-0 --multi))
+    [[ -n "$files" ]] && o "${files[@]}"
+    unset IFS
+  }
+fi
+
+# Quickly browse all packages installed with pacman using fzf
+# (Found in the Arch wiki)
+if (( $+commands[fzf] )); then
+  function pacbrowse() {
+    pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'
+  }
+fi
+
 
 #            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 #                    Version 2, December 2004

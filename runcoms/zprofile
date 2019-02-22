@@ -73,5 +73,6 @@ export FZF_DEFAULT_COMMAND='fd . .'
 export FZF_CTRL_T_COMMAND='fd . .'
 export DMENU_CMD='fzf +m'
 export AURDEST='/src/makepkg'
+#export WINEPREFIX='/opt/wine'
 
 # vim: ft=zsh
