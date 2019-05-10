@@ -45,6 +45,7 @@ typeset -gU cdpath fpath mailpath path
 path=(
   $HOME/.local/bin
   /usr/local/{bin,sbin}
+  # /home/linuxbrew/.linuxbrew/{bin,sbin}
   $path
 )
 
@@ -74,5 +75,10 @@ export FZF_CTRL_T_COMMAND='fd . .'
 export DMENU_CMD='fzf +m'
 export AURDEST='/src/makepkg'
 #export WINEPREFIX='/opt/wine'
+
+# Homebrew
+export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
+export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
 
 # vim: ft=zsh
