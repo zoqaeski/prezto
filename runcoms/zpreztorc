@@ -79,7 +79,7 @@ zstyle ':prezto:module:editor' dot-expansion 'yes'
 # zstyle ':prezto:module:git:status:ignore' submodules 'all'
 
 # Whether we use git aliases
-zstyle ':prezto:module:git:alias' skip 'no'
+zstyle ':prezto:module:git:alias' skip 'yes'
 
 #
 # GNU Utility
