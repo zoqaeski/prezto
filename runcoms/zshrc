@@ -24,7 +24,7 @@ alias xevk="xev | sed -ne '/^KeyPress/,/^$/p'"
 alias cp="${aliases[cp]:-cp} --reflink=auto"
 
 # Add Keychain support
-eval $(keychain --eval --quiet --agents ssh,gpg)
+eval $(keychain --eval --quiet --agents ssh,gpg id_ed25519)
 
 alias gpg-master='gpg --homedir /mnt/gpg-key-backup/gnupghome'
 
