@@ -11,33 +11,27 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+# Base16 Shell
+BASE16_SHELL=$HOME/.local/share/themes/base16/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+# Source VTE.sh for better VTE support
+source /etc/profile.d/vte.sh
+
 alias xevk="xev | sed -ne '/^KeyPress/,/^$/p'"
 
-# Source gpg connection data
-#if $(pgrep -u `whoami` envoy) ; then
-#	source <(envoy -p)
-#fi
-#if $(pgrep -u `whoami` gpg-agent) && [ -f "${HOME}/.gnupg/gpg-agent.env" ]; then
-#	. "${HOME}/.gnupg/gpg-agent.env"
-#	export GPG_AGENT_INFO
-#	export SSH_AUTH_SOCK
-#	export SSH_AGENT_PID
-##elif [ $(pgrep -u `whoami` gnome-keyring) ]; then
-##	true
-##   source <(gnome-keyring-daemon --start --components=gpg,ssh)
-#fi
+# Enables shallow copies on filesystems that support it (CoW)
+alias cp="${aliases[cp]:-cp} --reflink=auto"
 
 # Add Keychain support
 eval $(keychain --eval --quiet --agents ssh,gpg)
 
 alias gpg-master='gpg --homedir /mnt/gpg-key-backup/gnupghome'
 
-# Source VTE.sh for better VTE support
-source /etc/profile.d/vte.sh
-
-# Base16 Shell
-BASE16_SHELL=$HOME/.local/share/themes/base16/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+# Battery stats
+if (( $+commands[tlp] )); then
+  alias tlp-bat='sudo tlp-stat -b | grep --color=never -i charge'
+fi
 
 # Alias for arara-git
 # alias arara='arara-git'
@@ -52,15 +46,15 @@ BASE16_SHELL=$HOME/.local/share/themes/base16/base16-shell/
 
 
 function add-replay-gain () {
-	local curr=$(pwd)
-	echo "Loading albums…"
-	local albums=("${(@f)$(find "${curr}" -type f -iname '*.flac' -exec dirname '{}' \; | sort -u)}")
-	for a in $albums[@] ; do
-		cd "${a}"
-		echo "Adding ReplayGain tags to ${a}"
-		metaflac --add-replay-gain *.flac
-		cd "${curr}"
-	done
+  local curr=$(pwd)
+  echo "Loading albums…"
+  local albums=("${(@f)$(find "${curr}" -type f -iname '*.flac' -exec dirname '{}' \; | sort -u)}")
+  for a in $albums[@] ; do
+    cd "${a}"
+    echo "Adding ReplayGain tags to ${a}"
+    metaflac --add-replay-gain *.flac
+    cd "${curr}"
+  done
 }
 
 # Override texdoc with fzf mode
@@ -104,17 +98,17 @@ fi
 # find -name '*.cbr' -print -exec zsh -c 'source ~/.zshrc;cbr2cbz "{}"' \;
 
 function cbr2cbz() {
-	TMP="$XDG_RUNTIME_DIR"
-	CBZ=$(basename "$1" .cbr).cbz
-	DN=$(dirname "$1")
-	if [ -f "$DN/$CBZ" ]; then
-		echo "$DN/$CBZ already exists"
-	else
-		echo "Will create $DN/$CBZ"
-		DIR=$(mktemp -d -p "$TMP")
-		7z x "$1" -o"$DIR"
-		# find "$DIR" -type f -print
-		find "$DIR" -type f -print -exec 7z a -tzip "$DN/$CBZ" {} +
-		rm -rf "$DIR"
-	fi
+  TMP="$XDG_RUNTIME_DIR"
+  CBZ=$(basename "$1" .cbr).cbz
+  DN=$(dirname "$1")
+  if [ -f "$DN/$CBZ" ]; then
+    echo "$DN/$CBZ already exists"
+  else
+    echo "Will create $DN/$CBZ"
+    DIR=$(mktemp -d -p "$TMP")
+    7z x "$1" -o"$DIR"
+    # find "$DIR" -type f -print
+    find "$DIR" -type f -print -exec 7z a -tzip "$DN/$CBZ" {} +
+    rm -rf "$DIR"
+  fi
 }
