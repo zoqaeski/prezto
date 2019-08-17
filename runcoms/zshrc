@@ -16,7 +16,9 @@ BASE16_SHELL=$HOME/.local/share/themes/base16/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # Source VTE.sh for better VTE support
-source /etc/profile.d/vte.sh
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+  source /etc/profile.d/vte.sh
+fi
 
 alias xevk="xev | sed -ne '/^KeyPress/,/^$/p'"
 
