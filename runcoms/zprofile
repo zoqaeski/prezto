@@ -45,6 +45,7 @@ typeset -gU cdpath fpath mailpath path
 path=(
   $HOME/.local/bin
   /usr/local/{bin,sbin}
+  $HOME/Source/go/bin
   # /home/linuxbrew/.linuxbrew/{bin,sbin}
   $path
 )
@@ -70,8 +71,8 @@ fi
 #eval $(tmux switch-client \; show-environment -s)
 
 # Other environment variables
-export FZF_DEFAULT_COMMAND='fd . .'
-export FZF_CTRL_T_COMMAND='fd . .'
+export FZF_DEFAULT_COMMAND='fd --follow . .'
+export FZF_CTRL_T_COMMAND='fd --follow . .'
 export DMENU_CMD='fzf +m'
 export AURDEST='/src/makepkg'
 #export WINEPREFIX='/opt/wine'
@@ -80,5 +81,8 @@ export AURDEST='/src/makepkg'
 export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
 export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
+
+# Golang
+export GOPATH="/home/faraday/Source/go"
 
 # vim: ft=zsh
