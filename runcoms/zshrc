@@ -91,6 +91,12 @@ if (( $+commands[fzf] )); then
   }
 fi
 
+if (( $+commands[fzf] )); then
+  function pacsearch() {
+    pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --bind 'enter:execute(pacman -Si {} | less)'
+  }
+fi
+
 
 #            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 #                    Version 2, December 2004
