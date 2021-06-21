@@ -42,7 +42,6 @@ zstyle ':prezto:load' pmodule \
   'git' \
   'rsync' \
   'fzf' \
-  'fasd' \
   'prompt' \
   'syntax-highlighting' \
   'prompt'
