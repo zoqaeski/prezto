@@ -2,17 +2,22 @@
 
 Enables local Python and local Python package installation.
 
+This module must be loaded _before_ the _`completion`_ module so that the
+provided completion definitions are loaded.
+
 ## Settings
 
 This module supports virtual environments from conda and
-[*virtualenvwrapper*][2]. By default, only *virtualenvwrapper* is enabled. To
-disable *virtualenvwrapper*, add the following to *~/.zpreztorc*.
+[_virtualenvwrapper_][2]. By default, only _virtualenvwrapper_ is enabled. To
+disable _virtualenvwrapper_, add the following to
+_`${ZDOTDIR:-$HOME}/.zpreztorc`_.
 
 ```sh
 zstyle ':prezto:module:python' skip-virtualenvwrapper-init 'on'
 ```
 
-Conda support is enabled by adding the following to *~/.zpreztorc*.
+Conda support can be enabled by adding the following to
+_`${ZDOTDIR:-$HOME}/.zpreztorc`_.
 
 ```sh
 zstyle ':prezto:module:python' conda-init 'on'
@@ -22,18 +27,20 @@ Caution: using conda and virtualenvwrapper at the same time may cause conflicts.
 
 ## Local Python Installation
 
-[*pyenv*][4] builds and installs multiple Python versions locally in the home
+[_pyenv_][4] builds and installs multiple Python versions locally in the home
 directory.
 
-This module prepends the *pyenv* directory to the path variable to enable the
+This module prepends the _pyenv_ directory to the path variable to enable the
 execution of `pyenv`.
 
 ### Usage
 
-Install Python versions with `pyenv install` into *~/.pyenv/versions*.
+Install Python versions with `pyenv install` into _`~/.pyenv/versions`_.
 
 This will be loaded automatically if pyenv is installed to `$PYENV_ROOT`,
-*~/.pyenv*, or if the `pyenv` command is on the path.
+_`~/.pyenv`_, or if the `pyenv` command is on the path. By default, `PYENV_ROOT`
+is set to _`$HOME/.pyenv`_. You can set it to an alternate location and export
+it in [_`${ZDOTDIR:-$HOME}/.zshenv`_][6].
 
 ## Local Package Installation
 
@@ -50,7 +57,7 @@ Install packages into the per user site directory with `pip install --user`.
 
 ## virtualenvwrapper
 
-[*virtualenvwrapper*][2] is a frontend to the popular [*virtualenv*][3] utility.
+[_virtualenvwrapper_][2] is a frontend to the popular [_virtualenv_][3] utility.
 
 `virtualenv` creates isolated Python environments and `virtualenvwrapper`
 provides convenient shell functions to create, switch, and manage them.
@@ -59,14 +66,15 @@ provides convenient shell functions to create, switch, and manage them.
 
 Install `virtualenvwrapper`.
 
-Virtual environments are stored in *~/.virtualenvs*.
+Virtual environments are stored in _`~/.virtualenvs`_.
 
-There are configuration variables that have to be set to enable certain features.
-If you wish to use these features, export the variables in [`zshenv`][6].
+There are configuration variables that have to be set to enable certain
+features. If you wish to use these features, export the variables in
+[_`${ZDOTDIR:-$HOME}/.zshenv`_][6].
 
 The variable `$PROJECT_HOME` tells `virtualenvwrapper` where to place project
 working directories. It must be set and the directory created before `mkproject`
-is used. Replace *Developer* with your projects directory.
+is used. Replace _Developer_ with your projects directory.
 
 ```sh
 export PROJECT_HOME="$HOME/Developer"
@@ -140,11 +148,11 @@ Then add `$python_info[virtualenv]` to `$PROMPT` or `$RPROMPT` and call
 
 Similarly, you can use `:prezto:module:python:info:version:format` with `%v` for
 the version and add `$python_info[version]` to your prompt for the current
-python version/
+python version.
 
 ## Authors
 
-*The authors of this module should be contacted via the [issue tracker][5].*
+_The authors of this module should be contacted via the [issue tracker][5]._
 
 - [Sorin Ionescu](https://github.com/sorin-ionescu)
 - [Sebastian Wiesner](https://github.com/lunaryorn)
@@ -154,4 +162,4 @@ python version/
 [3]: https://pypi.org/project/virtualenv/
 [4]: https://github.com/yyuu/pyenv
 [5]: https://github.com/sorin-ionescu/prezto/issues
-[6]: https://github.com/sorin-ionescu/prezto/blob/master/runcoms/zshenv
+[6]: ../../runcoms#zshenv
