@@ -53,6 +53,11 @@ Read [iTerm2 and tmux Integration][7] for more information.
 
 ## Aliases
 
+- `tmuxc [start-directory]` creates a new detached session at the start
+    directory or the current working directory.
+- `tmuxs [name|start-directory]` attempts to switch to a session called _name_.
+    If the session doesn't exist, it creates a new session at the start
+    directory or the current working directory.
 - `tmuxa` attaches or switches to a tmux session.
 - `tmuxl` lists sessions managed by the tmux server.
 
