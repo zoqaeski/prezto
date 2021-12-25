@@ -85,15 +85,3 @@ fdr() {
 fh() {
   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
-
-if (( $+commands[fasd] )); then
-  # fcd - fasd change directory: cd into MRU dirs from fasd
-  fcd() {
-    local dir
-    dir=$(fasd -dlR | fzf +m --no-sort) && cd "$dir"
-  }  
-
-  alias j='fcd' 
-fi
-
-

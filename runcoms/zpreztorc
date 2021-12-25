@@ -42,9 +42,9 @@ zstyle ':prezto:load' pmodule \
   'git' \
   'rsync' \
   'fzf' \
-  'fasd' \
-  'prompt' \
+  'tmux' \
   'syntax-highlighting' \
+  'prompt'
 
 #
 # Autosuggestions
@@ -57,7 +57,7 @@ zstyle ':prezto:load' pmodule \
 # Completions
 #
 
-# Set the entries to ignore in static */etc/hosts* for host completion.
+# Set the entries to ignore in static '/etc/hosts' for host completion.
 # zstyle ':prezto:module:completion:*:hosts' etc-host-ignores \
 #   '0.0.0.0' '127.0.0.1'
 
@@ -215,16 +215,16 @@ zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa.github' 'id_ed25519
 #
 
 # Auto start a session when Zsh is launched in a local terminal.
-# zstyle ':prezto:module:tmux:auto-start' local 'yes'
+zstyle ':prezto:module:tmux:auto-start' local 'yes'
 
 # Auto start a session when Zsh is launched in a SSH connection.
-# zstyle ':prezto:module:tmux:auto-start' remote 'yes'
+zstyle ':prezto:module:tmux:auto-start' remote 'yes'
 
 # Integrate with iTerm2.
 # zstyle ':prezto:module:tmux:iterm' integrate 'yes'
 
 # Set the default session name:
-# zstyle ':prezto:module:tmux:session' name 'YOUR DEFAULT SESSION NAME'
+zstyle ':prezto:module:tmux:session' name $HOST
 
 #
 # Utility
