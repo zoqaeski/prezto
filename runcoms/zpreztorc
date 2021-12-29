@@ -42,6 +42,7 @@ zstyle ':prezto:load' pmodule \
   'git' \
   'rsync' \
   'fzf' \
+  'keychain' \
   'tmux' \
   'syntax-highlighting' \
   'prompt'
@@ -168,7 +169,7 @@ zstyle ':prezto:module:prompt' theme 'powerlevel10k'
 #
 
 # Set the SSH identities to load into the agent.
-zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa.github' 'id_ed25519' 'id_ed25519.github'
+zstyle ':prezto:module:ssh:load' identities 'id_ed25519' 'id_ed25519.github'
 
 #
 # Syntax Highlighting
