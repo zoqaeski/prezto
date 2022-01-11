@@ -80,11 +80,14 @@ if not_in_tmux && ( \
       set-option -t "$tmux_session" destroy-unattached off &> /dev/null
   fi
 
-  # Attach to the 'prezto' session if it isn't currently active, otherwise start a new session
+  # Attach to the 'prezto' session if it isn't currently active, otherwise
+  # start a new session.  The first session is always attached to the terminal
+  # such that if tmux exits or detaches then the terminal closes.  Subsequent
+  # sessions can be detached and the terminal will remain open.
   if [[ $(tmux ls -F "#{session_name}: #{?session_attached,attached,not attached}" | grep "$tmux_session: not attached") ]]; then
     exec tmux $_tmux_iterm_integration attach -t "$tmux_session"
   else
-    exec tmux $_tmux_iterm_integration new-session -c "$PWD"
+    tmux $_tmux_iterm_integration new-session -c "$PWD"
   fi
 fi
 
