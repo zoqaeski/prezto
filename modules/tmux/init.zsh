@@ -27,7 +27,7 @@ local _session_name
 local _session_path
 
 local not_in_tmux() {
-  [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && "$TERM_PROGRAM" != "vscode" ]]
+  [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && "$TERM_PROGRAM" != "vscode" && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]]
 }
 
 tmux_has_session() {
@@ -98,8 +98,9 @@ fi
 #
 # Aliases
 #
-
-alias tmuxc=tmux_create_detached
-alias tmuxs=tmux_switch
-alias tmuxa="tmux $_tmux_iterm_integration new-session -A"
-alias tmuxl='tmux list-sessions'
+if ! zstyle -t ':prezto:module:tmux:alias' skip; then
+  alias tmuxc=tmux_create_detached
+  alias tmuxs=tmux_switch
+  alias tmuxa="tmux $_tmux_iterm_integration new-session -A"
+  alias tmuxl='tmux list-sessions'
+fi

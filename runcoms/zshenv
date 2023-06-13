@@ -5,7 +5,25 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+export EDITOR='nvim'
+export VISUAL='nvim'
+export PAGER='less'
+export LANG='en_AU.UTF-8'
+
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+
+#eval $(tmux switch-client \; show-environment -s)
+
+# Other environment variables
+export FZF_DEFAULT_COMMAND='fd --follow . .'
+export FZF_CTRL_T_COMMAND='fd --follow . .'
+export DMENU_CMD='fzf +m'
+export AURDEST='/src/archlinux'
+export AUR_PAGER='ranger'
+#export WINEPREFIX='/opt/wine'
+
+# Golang
+export GOPATH="/home/praxidike/Source/go"

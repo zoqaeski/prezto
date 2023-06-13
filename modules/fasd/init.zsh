@@ -53,12 +53,7 @@ function fasd_cd {
 # Aliases
 #
 
-# Changes the current working directory interactively. 
-# If `fzf` exists on the system, remap `j` to `J` as the former is an alias that
-# pipes `fasd` -> `fzf` to allow filtering of MRU directories
-if (( $+commands[fzf] )); then
-  alias J='fasd_cd -i'
-else
+if ! zstyle -t ':prezto:module:fasd:alias' skip; then
+  # Changes the current working directory interactively.
   alias j='fasd_cd -i'
 fi
-
