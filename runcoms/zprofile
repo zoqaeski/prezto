@@ -76,5 +76,6 @@ fi
 #
 # Update environment variables
 #
+export PROJECT_HOME="$HOME/Source/python"
 
 # vim: ft=zsh

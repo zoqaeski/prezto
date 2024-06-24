@@ -26,4 +26,4 @@ export AUR_PAGER='ranger'
 #export WINEPREFIX='/opt/wine'
 
 # Golang
-export GOPATH="/home/praxidike/Source/go"
+#export GOPATH="/home/praxidike/Source/go"
