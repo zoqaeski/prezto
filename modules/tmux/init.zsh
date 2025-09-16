@@ -13,7 +13,10 @@ if (( ! $+commands[tmux] )); then
   return 1
 fi
 
-# iTerm integration
+#
+# Auto Start
+#
+
 if ([[ "$TERM_PROGRAM" = 'iTerm.app' ]] && \
   zstyle -t ':prezto:module:tmux:iterm' integrate \
 ); then
@@ -28,7 +31,7 @@ if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && -z "$VSCOD
 
   # Create a 'prezto' session if no session has been defined in tmux.conf.
   zstyle -s ':prezto:module:tmux:session' name tmux_session || tmux_session='prezto'
-  if ! tmux_has_session "$tmux_session"; then
+  if ! tmux has-session 2> /dev/null; then
     tmux \
       new-session -d -s "$tmux_session" \; \
       set-option -t "$tmux_session" destroy-unattached off &> /dev/null
@@ -53,8 +56,6 @@ fi
 # Aliases
 #
 if ! zstyle -t ':prezto:module:tmux:alias' skip; then
-  alias tmuxc=tmux_create_detached
-  alias tmuxs=tmux_switch
   alias tmuxa="tmux $_tmux_iterm_integration new-session -A"
   alias tmuxl='tmux list-sessions'
 fi
