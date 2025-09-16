@@ -15,6 +15,6 @@ _ssh_dir="$HOME/.ssh"
 
 zstyle -a ':prezto:module:ssh:load' identities '_ssh_identities'
 
-eval $(keychain --eval --quiet --agents ssh,gpg ${_ssh_identities:+$_ssh_dir/${^_ssh_identities[@]}})
+eval $(keychain --eval --quiet ${_ssh_identities:+$_ssh_dir/${^_ssh_identities[@]}})
 
 unset _ssh_{dir,identities}
