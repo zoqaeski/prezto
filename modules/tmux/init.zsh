@@ -20,53 +20,7 @@ if ([[ "$TERM_PROGRAM" = 'iTerm.app' ]] && \
   _tmux_iterm_integration='-CC'
 fi
 
-#
-# Functions
-#
-local _session_name
-local _session_path
-
-local not_in_tmux() {
-  [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && "$TERM_PROGRAM" != "vscode" && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]]
-}
-
-tmux_has_session() {
-  tmux has-session -t "$1" 2> /dev/null
-}
-
-tmux_create_detached() {
-  local _start_dir=$1
-  if [[ -d "${_start_dir}" ]] ; then
-    _session_path="${_start_dir}"
-  else
-    _session_path="${PWD}"
-  fi
-  _session_name=${$(basename "${_session_path}" | tr . -)//./_}
-  if ! tmux_has_session "${_session_name}" ; then
-    tmux new-session -d -s "${_session_name}" -c "${_session_path}"
-  fi
-}
-
-tmux_switch() {
-  local _arg=$1
-  if [[ -n "$_arg" ]] && tmux_has_session "$_arg"; then
-    _session_name="$_arg"
-  else
-      tmux_create_detached "$_arg"
-  fi
-  if not_in_tmux; then
-    tmux $_tmux_iterm_integration attach-session -d -t "${_session_name}"
-  else
-    tmux switch-client -t "${_session_name}"
-  fi
-}
-
-#
-# Auto Start
-#
-
-
-if not_in_tmux && ( \
+if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && -z "$VSCODE_RESOLVING_ENVIRONMENT" && "$TERM_PROGRAM" != "vscode" && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]] && ( \
   ( [[ -n "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' remote ) ||
   ( [[ -z "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' local ) \
 ); then
